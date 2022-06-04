@@ -13,16 +13,14 @@ enum CurrentLight {
 
 struct ContentView: View {
     
+    @State private var buttonTitle = "START"
     @State private var currentLight = CurrentLight.red
     
     private func changeColor() {
         switch currentLight {
-        case .red:
-            currentLight = .yellow
-        case .yellow:
-            currentLight = .green
-        case .green:
-            currentLight = .red
+        case .red: currentLight = .yellow
+        case .yellow: currentLight = .green
+        case .green: currentLight = .red
         }
     }
     
@@ -45,27 +43,20 @@ struct ContentView: View {
                     color: .green,
                     opacity: currentLight == .green ? 1 : 0.3
                 )
-               
+                
                 Spacer()
                 
-                Button(action: { changeColor() } ) {
-                    Text("START")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .frame(width: 180, height: 50)
+                ChangeColorButton(title: buttonTitle) {
+                    if buttonTitle == "START" {
+                        buttonTitle = "NEXT"
+                    }
+                    changeColor()
                 }
-                .background(Color.blue)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.white, lineWidth: 5))
-                .padding()
             }
+            .padding()
         }
     }
 }
-
-    
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
